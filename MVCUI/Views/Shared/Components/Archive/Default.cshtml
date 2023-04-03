@@ -1,0 +1,19 @@
+﻿@model IList<Article>
+@{
+    var listyYear = Model.Select(x => x.CreateDate.ToShortDateString());
+    var groupYear = listyYear.GroupBy(x => new
+    {
+        CreatedYear = x,
+        Count = x.Count()
+    }).ToList();
+}
+
+<div class="sidebar-box ftco-animate">
+    <h3 class="sidebar-heading">Arşiv</h3>
+    <ul class="categories">
+        @foreach (var year in groupYear)
+        {
+            <li><a href="#">@year.Key.CreatedYear<span>(@year.Key.Count)</span></a></li>
+        }
+    </ul>
+</div>

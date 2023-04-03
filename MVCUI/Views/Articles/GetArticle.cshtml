@@ -1,0 +1,50 @@
+﻿@model ArticleReadDto
+
+@{
+
+}
+
+<style>
+    .theme-color{
+        color:@Model.Image;
+    }
+</style>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="ftco-animate fadeInUp ftco-animated">
+                    <span class="d-flex justify-content-between category d-block">
+                        <a asp-action="GetArticlesByCategoryId" asp-controller="Articles" asp-route-id="@Model.CategoryId" class="h6" style="color: @Model.Image">@Model.CategoryName.ToUpper()</a>
+                        <div class="half order-md-last h-5">
+                            <p class="meta">
+                                <span><i class="icon-eye mr-2"></i>@Model.ReaderCount</span>
+                            </p>
+                        </div>
+                    </span>
+                    <div class="d-flex justify-content-between">
+                        <h2 class="mb-3 font-weight-bold mr-3">@Model.Header</h2>
+                        <span>@Model.CreateDate.ToString("dd MMMM yyyy")</span>
+                    </div>
+
+                    <hr />
+
+                    <p id="article-content" style="text-align:justify">@Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))</p>
+
+                </div>
+            </div>
+            <div class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">
+
+                @await Component.InvokeAsync("Categories")
+
+                @await Component.InvokeAsync("LastArticles", new { length = 5 })
+
+                @*@await Component.InvokeAsync("Contact")*@
+
+                @*@await Component.InvokeAsync("Archive")*@
+
+            </div>
+        </div>
+    </div>
+</section>

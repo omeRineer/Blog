@@ -1,0 +1,23 @@
+﻿@model IList<ArticleReadDto>
+@{
+}
+
+<div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+    <h3 class="sidebar-heading">Son Yazılar</h3>
+    @foreach (var article in Model)
+    {
+        <div class="block-21 mb-4 d-flex">
+            <a class="blog-img mr-4" style="background-color: @article.Image"></a>
+            <div class="text">
+                <h3 class="heading">
+                    <a asp-action="GetArticle" asp-controller="Articles" asp-route-id="@article.Id">@article.Header</a>
+                    <a asp-action="GetArticlesByCategoryId" asp-controller="Articles" asp-route-id="@article.CategoryId" style="font-size:10px; display:block; font-family:'Montserrat', Arial, sans-serif"> @article.CategoryName.ToUpper()</a>
+                </h3>
+                <div class="meta">
+                    <div><a href="#"><span class="icon-calendar"></span> @article.CreateDate.ToString("dd MMMM yyyy")</a></div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

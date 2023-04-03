@@ -1,0 +1,15 @@
+﻿@model IList<Entities.DTOs.Category.CategoryReadDto>
+
+@{
+}
+
+<div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+    <h3 class="sidebar-heading">Kategoriler</h3>
+    <ul class="categories">
+        <li><a asp-action="Index" asp-controller="Articles">Hepsi</a></li>
+        @foreach (var category in Model)
+        {
+            <li><a asp-action="GetArticlesByCategoryId" asp-controller="Articles" asp-route-id="@category.Id">@category.Name <span>@category.ArticleCount</span></a></li>
+        }
+    </ul>
+</div>

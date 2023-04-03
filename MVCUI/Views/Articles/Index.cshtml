@@ -1,0 +1,66 @@
+﻿@model IList<ArticleReadDto>
+
+@{
+}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+
+                @await Component.InvokeAsync("Pagination", new { count = (int)ViewData["ArticlesCount"] })
+
+                @foreach (var article in Model)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-1" style="background-color: @article.Image">
+
+                        </div>
+                        <div class="col-md-11">
+                            <div class="blog-entry ftco-animate">
+                                <div class="text text-2 pt-2 mt-3">
+                                    <span class="d-flex justify-content-between category d-block">
+                                        <a asp-action="GetArticlesByCategoryId" asp-controller="Articles" asp-route-id="@article.CategoryId" class="h6" style="color: @article.Image">@article.CategoryName.ToUpper()</a>
+                                        <div class="half order-md-last h-5">
+                                            <p class="meta">
+                                                <span><i class="icon-eye mr-2"></i>@article.ReaderCount</span>
+                                            </p>
+                                        </div>
+                                    </span>
+                                    <h3 class="mb-4"><a asp-action="GetArticle" asp-controller="Articles" asp-route-id="@article.Id">@article.Header</a></h3>
+                                    <p class="blog-preliminary mb-4">@Html.Raw(System.Web.HttpUtility.HtmlDecode(article.Content.Count() >= 270 ? article.Content.Substring(0, 270) : article.Content)) ...</p>
+                                    <div class="meta-wrap align-items-center">
+                                        <div class="half d-flex justify-content-between">
+                                            <p><a asp-action="GetArticle" asp-controller="Articles" asp-route-id="@article.Id" style="color: @article.Image" class="btn py-2">Oku <span class="ion-ios-arrow-forward"></span></a></p>
+                                            <span class="d-flex align-items-center">@article.CreateDate.ToString("dd MMMM yyyy")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    if (Model.IndexOf(article) != Model.Count - 1)
+                    {
+                        <hr />
+                    }
+
+                }
+
+                @await Component.InvokeAsync("Pagination", new { count = (int)ViewData["ArticlesCount"] })
+
+            </div>
+            <div class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">
+
+                @await Component.InvokeAsync("Categories")
+
+                @await Component.InvokeAsync("LastArticles", new { length = 5 })
+
+                @*@await Component.InvokeAsync("Contact")*@
+
+                @*@await Component.InvokeAsync("Archive")*@
+
+            </div>
+        </div>
+    </div>
+</section>

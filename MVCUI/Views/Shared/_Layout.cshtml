@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CoreSnippets</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
+    <link href="~/elen/css/ionicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/elen/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="~/elen/css/animate.css">
+    <link rel="stylesheet" href="~/elen/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/elen/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/elen/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/elen/css/aos.css">
+    <link rel="stylesheet" href="~/elen/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="~/elen/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="~/elen/css/flaticon.css">
+    <link rel="stylesheet" href="~/elen/css/icomoon.css">
+    <link rel="stylesheet" href="~/elen/css/style.css">
+</head>
+<body>
+
+    <div id="colorlib-page">
+        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+        <aside id="colorlib-aside" role="complementary" class="js-fullheight text-center">
+            <h1 id="colorlib-logo"><a href="index.html">Blog<span>.</span></a></h1>
+            <nav id="colorlib-main-menu" role="navigation">
+                <ul>
+                    <li class="@(ViewData["LinkActive"]=="Home" ? "colorlib-active" : "")"><a asp-action="Index" asp-controller="Home">Ana Sayfa</a></li>
+                    <li class="@(ViewData["LinkActive"]=="Blog" ? "colorlib-active" : "")"><a  asp-action="Index" asp-controller="Articles">Blog</a></li>
+                </ul>
+            </nav>
+
+            <div class="colorlib-footer">
+                <ul>
+                    <li><a href="https://github.com/omeRineer"><i class="icon-github"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/omerineer/" target="_blank"><i class="icon-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <div id="colorlib-main">
+            @RenderBody()
+        </div>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/elen/js/jquery.min.js"></script>
+    <script src="~/elen/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="~/elen/js/popper.min.js"></script>
+    <script src="~/elen/js/bootstrap.min.js"></script>
+    <script src="~/elen/js/jquery.easing.1.3.js"></script>
+    <script src="~/elen/js/jquery.waypoints.min.js"></script>
+    <script src="~/elen/js/jquery.stellar.min.js"></script>
+    <script src="~/elen/js/owl.carousel.min.js"></script>
+    <script src="~/elen/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/elen/js/aos.js"></script>
+    <script src="~/elen/js/jquery.animateNumber.min.js"></script>
+    <script src="~/elen/js/bootstrap-datepicker.js"></script>
+    <script src="~/elen/js/jquery.timepicker.min.js"></script>
+    <script src="~/elen/js/scrollax.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="~/elen/js/google-map.js"></script>
+    <script src="~/elen/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

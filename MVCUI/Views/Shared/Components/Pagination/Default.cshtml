@@ -1,0 +1,100 @@
+﻿@model int
+@{
+    bool isCategoryClick = (bool)ViewData["IsCategoryClick"];
+    int currentPage = (int)ViewData["CurrentPage"];
+    var categoryId = ViewData["CategoryId"];
+    var categoryTheme = (string)ViewData["CategoryTheme"];
+}
+
+
+<style>
+    @@import url("https://fonts.googleapis.com/css?family=Roboto:400,300");
+
+    .pagination-container {
+        text-align: center;
+    }
+
+    .pagination {
+        position: relative;
+    }
+
+        .pagination a {
+            position: relative;
+            display: inline-block;
+            color: @(categoryTheme is not null ? categoryTheme : "#000000");
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 8px 16px 10px;
+        }
+
+            .pagination a:before {
+                z-index: -1;
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                content: "";
+                top: 0;
+                left: 0;
+                background-color: @(categoryTheme is not null ? categoryTheme : "#000000");;
+                border-radius: 24px;
+                transform: scale(0);
+                transition: all 0.2s;
+            }
+
+            .pagination a:hover,
+            .pagination a .pagination-active {
+                color: #fff;
+            }
+
+                .pagination a:hover:before,
+                .pagination a .pagination-active:before {
+                    transform: scale(1);
+                }
+
+        .pagination .pagination-active {
+            color: #fff;
+        }
+
+            .pagination .pagination-active:before {
+                transform: scale(1);
+            }
+
+    .pagination-newer {
+        margin-right: 50px;
+    }
+
+    .pagination-older {
+        margin-left: 50px;
+    }
+</style>
+
+@if (Model != 1)
+{
+    <div class="pagination-container mt-5 mb-5">
+        <div class="pagination d-flex justify-content-between">
+            <a asp-action="@((bool)isCategoryClick ? "GetArticlesByCategoryId" : "Index")"
+               class="pagination-newer"
+               asp-controller="Articles"
+               asp-route-page="@(currentPage-1 !<0 ? 0 : currentPage-1)"
+               asp-route-id="@(categoryId!=null ? categoryId : null)">PREV</a>
+
+            <span class="pagination-inner">
+
+                @for (int i = 0; i < Model; i++)
+                {
+                    <a asp-action="@((bool)isCategoryClick ? "GetArticlesByCategoryId" : "Index")"
+                       class="@(i == (int)currentPage ? "pagination-active" : "")"
+                       asp-controller="Articles"
+                       asp-route-page="@(i==0 ? null : i)"
+                       asp-route-id="@(categoryId!=null ? categoryId : null)">@(i+1)</a>
+                }
+
+            </span>
+            <a asp-action="@((bool)isCategoryClick ? "GetArticlesByCategoryId" : "Index")"
+               class="pagination-order"
+               asp-controller="Articles"
+               asp-route-page="@(currentPage+1 !> Model-1 ? currentPage : currentPage+1)"
+               asp-route-id="@(categoryId!=null ? categoryId : null)">NEXT</a>
+        </div>
+    </div>
+}

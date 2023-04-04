@@ -33,6 +33,7 @@ namespace MVCUI
         {
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(MainMappers));
+            services.AddMemoryCache();
 
             services.AddServiceModules(new IServiceModule[]
             {

@@ -5,6 +5,7 @@ using Entities.Concrete;
 using Entities.DTOs.Article;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,12 @@ namespace Business.Concrete
     public class ArticleManager : IArticleService
     {
         readonly IArticleDal _articleDal;
+        readonly IMemoryCache _memoryCache;
 
-        public ArticleManager(IArticleDal articleDal)
+        public ArticleManager(IArticleDal articleDal, IMemoryCache memoryCache)
         {
             _articleDal = articleDal;
+            _memoryCache = memoryCache;
         }
 
         public IResult Add(Article article)
@@ -52,14 +55,13 @@ namespace Business.Concrete
                                             includes: x => x.Include(s => s.Category),
                                             orderBy: o => o.OrderByDescending(s => s.CreateDate),
                                             page: page);
-
             return new SuccessDataResult<IList<Article>>(result);
         }
 
         public IDataResult<IList<Article>> GetAllByCategoryId(int categoryId, int page)
         {
             var result = _articleDal.GetAll(filter: x => x.CategoryId == categoryId
-                                                      && x.Status == true, 
+                                                      && x.Status == true,
                                             includes: x => x.Include(s => s.Category),
                                             orderBy: o => o.OrderByDescending(x => x.CreateDate),
                                             page: page);

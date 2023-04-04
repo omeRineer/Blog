@@ -2,6 +2,7 @@
 using Business.Abstract;
 using Entities.DTOs.Article;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace MVCUI.Controllers
 
         readonly IArticleService _articleService;
         readonly ICategoryService _categoryService;
+        
         readonly IMapper _mapper;
 
         public ArticlesController(IArticleService articleService, IMapper mapper, ICategoryService categoryService)

@@ -3,6 +3,8 @@ using Core.Utilities.ResultTool;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.Category;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,12 @@ namespace Business.Concrete
     public class CategoryManager : ICategoryService
     {
         readonly ICategoryDal _categoryDal;
+        readonly IMemoryCache _memoryCache;
 
-        public CategoryManager(ICategoryDal categoryDal)
+        public CategoryManager(ICategoryDal categoryDal, IMemoryCache memoryCache)
         {
             _categoryDal = categoryDal;
+            _memoryCache = memoryCache;
         }
 
         public IResult Add(Category category)
@@ -36,16 +40,27 @@ namespace Business.Concrete
 
         public IDataResult<IList<Category>> GetAll()
         {
-            var result = _categoryDal.GetAll();
+
+            var result= _categoryDal.GetAll();
 
             return new SuccessDataResult<IList<Category>>(result);
         }
 
         public IDataResult<IList<CategoryReadDto>> GetAllByCategoryReadDto()
         {
-            var result = _categoryDal.GetListByCategoryReadDto();
+            if (_memoryCache.TryGetValue("categories", out IList<CategoryReadDto> result))
+            {
+                return new SuccessDataResult<IList<CategoryReadDto>>(result);
+            }
 
-            return new SuccessDataResult<IList<CategoryReadDto>>(result);
+            var categories = _categoryDal.GetListByCategoryReadDto();
+            _memoryCache.Set("categories", categories, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTime.Now.AddDays(1),
+                Priority = CacheItemPriority.Normal
+            });
+
+            return new SuccessDataResult<IList<CategoryReadDto>>(categories);
         }
 
         public IDataResult<IList<KeyValuePair<int, string>>> GetAllByDropdown()

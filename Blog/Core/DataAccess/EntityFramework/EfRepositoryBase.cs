@@ -14,11 +14,11 @@ namespace Core.DataAccess.EntityFramework
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()
     {
-        private readonly DbContext _context;
+        protected readonly DbContext _context;
         private readonly DbSet<TEntity> Table;
-        public EfRepositoryBase()
+        public EfRepositoryBase(DbContext context)
         {
-            _context = new TContext();
+            _context = context;
             Table = _context.Set<TEntity>();
         }
 

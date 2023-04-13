@@ -1,20 +1,46 @@
 ﻿@model ArticleReadDto
 
 @{
-
 }
 
 <style>
-    .theme-color{
-        color:@Model.Image;
+
+    .article-content p {
+    text-align: justify
+}
+
+.theme-color {
+    color: @Model.Image;
+}
+
+.code-border {
+    font-family: Consolas;
+    color: rgb(57, 57, 57);
+    padding: 2px;
+    border: solid 1px rgb(215, 215, 215);
+    background-color: rgb(215, 215, 215);
+    border-radius: 5px;
+}
+
+    .code-border:hover {
+        color: @Model.Image;
+        font-weight: bold;
     }
+
+    .note{
+    padding: 4%;
+    background-color: rgb(227, 227, 227);
+    border-radius: 5px;
+    border-left: 1rem solid @Model.Image;
+}
+
 </style>
 
 <section class="ftco-section">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="ftco-animate fadeInUp ftco-animated">
+                <div class="ftco-animate fadeInUp ftco-animated mb-5">
                     <span class="d-flex justify-content-between category d-block">
                         <a asp-action="GetArticlesByCategoryId" asp-controller="Articles" asp-route-id="@Model.CategoryId" class="h6" style="color: @Model.Image">@Model.CategoryName.ToUpper()</a>
                         <div class="half order-md-last h-5">
@@ -30,9 +56,11 @@
 
                     <hr />
 
-                    <p id="article-content" style="text-align:justify">@Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))</p>
+                    <div class="article-content">@Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))</div>
 
                 </div>
+
+                @*@await Component.InvokeAsync("Comment")*@
             </div>
             <div class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">
 

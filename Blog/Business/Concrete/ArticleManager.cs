@@ -28,6 +28,7 @@ namespace Business.Concrete
 
         public IResult Add(Article article)
         {
+            _memoryCache.TryGetValue("den", out var result);
             _articleDal.Add(article);
             _articleDal.Save();
             return new SuccessResult();
@@ -81,7 +82,7 @@ namespace Business.Concrete
 
         public IDataResult<Article> GetById(Guid id)
         {
-            var result = _articleDal.Get(x => x.Id == id, x => x.Include(y => y.Category));
+            var result = _articleDal.Get(x => x.Id == id && x.Status == true, x => x.Include(y => y.Category));
 
             return new SuccessDataResult<Article>(result);
         }

@@ -1,0 +1,129 @@
+﻿
+@{
+}
+
+<style>
+    .new-comment {
+        width: 100%;
+        border-radius: 10px;
+        background-color: #efefef;
+        padding: 20px;
+    }
+
+    .new-comment-input {
+        margin-bottom: 10px;
+    }
+
+    .comment-actions {
+        display: flex;
+        justify-content: end;
+    }
+
+    .comment-submit {
+        border-radius: 10px;
+        border: 1px black solid;
+        background-color: var(--green);
+        color: white;
+        padding: 5px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+        .comment-submit:hover {
+            background-color: green;
+        }
+
+    .comment-name, .comment-email, .comment-content {
+        margin-bottom: 10px;
+    }
+
+
+    .comment-form {
+        display: block;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px gray solid;
+    }
+
+    .comment {
+        width: 100%;
+        border-radius: 10px;
+        background-color: #efefef;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .comment-header {
+        display: flex;
+        align-content: center;
+        margin-bottom: 1rem;
+    }
+
+        .comment-header h6 {
+            color: black;
+            text-align: center;
+        }
+
+    .comment-header-info {
+    }
+
+    .comment-body {
+        padding: 10px;
+        min-height: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+
+    .user-photo {
+        height: 3rem;
+        width: 3rem;
+        border-radius: 100%;
+        margin-right: 1rem;
+    }
+</style>
+
+<div class="comment-container">
+
+
+    <h4 class="mb-3 font-weight-bold">Yorumlar</h4>
+    <hr>
+    <div class="comment">
+        <div class="comment-header">
+            <img id="user-photo" class="user-photo" src="./images/user-photo.png" alt="">
+            <div class="comment-header-info">
+                <h6>Ömer Faruk Sandıkçı</h6>
+                <span>omer@gmail.com</span>
+            </div>
+        </div>
+        <div class="comment-body">
+            <p><strong>Selamlar herkese</strong></p>
+        </div>
+    </div>
+
+    <div class="new-comment">
+        <h5 class="mb-3 font-weight-bold">Yorum Yap</h5>
+        <hr>
+        <div class="new-comment-input">
+            <div class="comment-name">
+                <label for="name">Ad</label>
+                <input type="text" id="name" class="comment-form">
+            </div>
+            <div class="comment-email">
+                <label for="email">Email</label>
+                <input type="email" class="comment-form" name="" id="email">
+            </div>
+            <div class="comment-content">
+                <label for="content">Yorum</label>
+                <textarea class="comment-form" name="" id="content" cols="30" rows="7"></textarea>
+            </div>
+        </div>
+        <div class="comment-actions">
+            <button class="btn btn-danger ml-2">Temizle</button>
+            <button class="btn btn-success ml-2">Gönder</button>
+        </div>
+    </div>
+
+</div>

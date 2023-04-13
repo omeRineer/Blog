@@ -1,7 +1,10 @@
 using Business;
+using Business.Abstract;
+using Business.Concrete;
 using Business.Mappers;
 using Core.Extensions;
 using Core.ServiceModules;
+using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +37,16 @@ namespace MVCUI
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(MainMappers));
             services.AddMemoryCache();
+
+            services.AddScoped<IArticleService, ArticleManager>();
+            services.AddScoped<IArticleDal, EfArticleDal>();
+            services.AddScoped<ICategoryService, CategoryManager>();
+            services.AddScoped<ICategoryDal, EfCategoryDal>();
+
+            services.AddDbContext<Context>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("BlogDbConnectionString"));
+            });
 
             services.AddServiceModules(new IServiceModule[]
             {

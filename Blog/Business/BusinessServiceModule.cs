@@ -26,11 +26,11 @@ namespace Business
         public void Load(IServiceCollection services)
         {
 
-            services.AddScoped<IArticleService, ArticleManager>();
-            services.AddScoped<IArticleDal, EfArticleDal>();
+            //services.AddScoped<IArticleService, ArticleManager>();
+            //services.AddScoped<IArticleDal, EfArticleDal>();
 
-            services.AddScoped<ICategoryService, CategoryManager>();
-            services.AddScoped<ICategoryDal, EfCategoryDal>();
+            //services.AddScoped<ICategoryService, CategoryManager>();
+            //services.AddScoped<ICategoryDal, EfCategoryDal>();
 
             
         }

@@ -4,39 +4,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CoreSnippets</title>
+    <link rel="icon" type="image/x-icon" href="core.ico">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
-    <link href="~/elen/css/ionicons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/elen/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="~/elen/css/animate.css">
-    <link rel="stylesheet" href="~/elen/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/elen/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="~/elen/css/magnific-popup.css">
-    <link rel="stylesheet" href="~/elen/css/aos.css">
-    <link rel="stylesheet" href="~/elen/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="~/elen/css/jquery.timepicker.css">
-    <link rel="stylesheet" href="~/elen/css/flaticon.css">
     <link rel="stylesheet" href="~/elen/css/icomoon.css">
     <link rel="stylesheet" href="~/elen/css/style.css">
+    <link href="~/css/prism.css" rel="stylesheet" />
 </head>
 <body>
 
     <div id="colorlib-page">
         <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
         <aside id="colorlib-aside" role="complementary" class="js-fullheight text-center">
-            <h1 id="colorlib-logo"><a href="index.html">Core Snippets<span>.</span></a></h1>
+            <h1 id="colorlib-logo"><a href="index.html"><span>.</span>CS Blog</a></h1>
             <nav id="colorlib-main-menu" role="navigation">
                 <ul>
                     <li class="@(ViewData["LinkActive"]=="Home" ? "colorlib-active" : "")"><a asp-action="Index" asp-controller="Home">Ana Sayfa</a></li>
-                    <li class="@(ViewData["LinkActive"]=="Blog" ? "colorlib-active" : "")"><a  asp-action="Index" asp-controller="Articles">Blog</a></li>
+                    <li class="@(ViewData["LinkActive"]=="Blog" ? "colorlib-active" : "")"><a asp-action="Index" asp-controller="Articles">Blog</a></li>
+                    <li><a href="https://api.whatsapp.com/send?phone=905539509069&text=Selamlar%20size%20Core%20Snippets%20sitenizden%20ulaştım">İletişim</a></li>
                 </ul>
             </nav>
 
             <div class="colorlib-footer">
                 <ul>
-                    <li><a href="https://github.com/omeRineer"><i class="icon-github"></i></a></li>
+                    <li><a href="https://github.com/omeRineer" target="_blank"><i class="icon-github"></i></a></li>
                     <li><a href="https://www.linkedin.com/in/omerineer/" target="_blank"><i class="icon-linkedin"></i></a></li>
+                    <li><a href="https://api.whatsapp.com/send?phone=905539509069&text=Selamlar%20size%20Core%20Snippets%20sitenizden%20ulaştım" target="_blank"><i class="icon-whatsapp"></i></a></li>
                 </ul>
             </div>
         </aside>
@@ -65,9 +60,8 @@
     <script src="~/elen/js/bootstrap-datepicker.js"></script>
     <script src="~/elen/js/jquery.timepicker.min.js"></script>
     <script src="~/elen/js/scrollax.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="~/elen/js/google-map.js"></script>
     <script src="~/elen/js/main.js"></script>
+    <script src="~/js/prism.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

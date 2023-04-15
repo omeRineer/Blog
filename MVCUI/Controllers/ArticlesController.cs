@@ -2,7 +2,9 @@
 using Business.Abstract;
 using Entities.DTOs.Article;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
+using MVCUI.ActionFilters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,6 @@ namespace MVCUI.Controllers
 
         readonly IArticleService _articleService;
         readonly ICategoryService _categoryService;
-        
         readonly IMapper _mapper;
 
         public ArticlesController(IArticleService articleService, IMapper mapper, ICategoryService categoryService)
@@ -41,37 +42,17 @@ namespace MVCUI.Controllers
             return View(articlesReadDto);
         }
 
+
         [HttpGet("[action]")]
+        [ReadCounter]
         public IActionResult GetArticle(Guid id)
         {
-            var isVisitor = HttpContext.Request.Cookies["HitBlog"];
-            if (isVisitor == null)
-            {
-                _articleService.AddReaderCount(id);
-                HttpContext.Response.Cookies.Append("HitBlog", JsonConvert.SerializeObject(new List<string> { id.ToString() }), new Microsoft.AspNetCore.Http.CookieOptions
-                {
-                    Expires = DateTimeOffset.Now.AddDays(5)
-                });
-            }
-            else
-            {
-                if (!isVisitor.Contains(id.ToString()))
-                {
-                    _articleService.AddReaderCount(id);
-                    var cookieList = JsonConvert.DeserializeObject<List<string>>(isVisitor);
-                    cookieList.Add(id.ToString());
-                    HttpContext.Response.Cookies.Append("HitBlog", JsonConvert.SerializeObject(cookieList), new Microsoft.AspNetCore.Http.CookieOptions
-                    {
-                        Expires = DateTimeOffset.Now.AddDays(5)
-                    });
-                }
-            }
-
             var article = _articleService.GetById(id).Data;
 
             var result = _mapper.Map<ArticleReadDto>(article);
 
-            ViewData["Title"] = article.Header;
+            ViewData["Title"] = result.Header;
+            ViewData["ThemeColor"] = result.Image;
 
             return View(result);
         }

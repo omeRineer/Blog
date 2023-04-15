@@ -48,17 +48,7 @@ namespace Business.Concrete
 
         public IDataResult<IList<CategoryReadDto>> GetAllByCategoryReadDto()
         {
-            if (_memoryCache.TryGetValue("categories", out IList<CategoryReadDto> result))
-            {
-                return new SuccessDataResult<IList<CategoryReadDto>>(result);
-            }
-
             var categories = _categoryDal.GetListByCategoryReadDto();
-            _memoryCache.Set("categories", categories, new MemoryCacheEntryOptions
-            {
-                AbsoluteExpiration = DateTime.Now.AddDays(1),
-                Priority = CacheItemPriority.Normal
-            });
 
             return new SuccessDataResult<IList<CategoryReadDto>>(categories);
         }

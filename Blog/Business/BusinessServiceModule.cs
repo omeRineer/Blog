@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
+using Business.Mappers;
 using Core.ServiceModules;
+using Core.Utilities.ServiceTools;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +27,18 @@ namespace Business
 
         public void Load(IServiceCollection services)
         {
+            services.AddMemoryCache();
 
-            //services.AddScoped<IArticleService, ArticleManager>();
-            //services.AddScoped<IArticleDal, EfArticleDal>();
+            services.AddScoped<IArticleService, ArticleManager>();
+            services.AddScoped<IArticleDal, EfArticleDal>();
+            services.AddScoped<ICategoryService, CategoryManager>();
+            services.AddScoped<ICategoryDal, EfCategoryDal>();
 
-            //services.AddScoped<ICategoryService, CategoryManager>();
-            //services.AddScoped<ICategoryDal, EfCategoryDal>();
+            services.AddDbContext<Context>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("BlogDbConnectionString"));
+            });
 
-            
         }
     }
 }

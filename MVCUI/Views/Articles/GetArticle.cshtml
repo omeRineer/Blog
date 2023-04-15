@@ -10,7 +10,7 @@
 }
 
 .theme-color {
-    color: @Model.Image;
+    color: @ViewData["ThemeColor"];
 }
 
 .code-border {
@@ -23,7 +23,7 @@
 }
 
     .code-border:hover {
-        color: @Model.Image;
+        color: @ViewData["ThemeColor"];
         font-weight: bold;
     }
 
@@ -31,7 +31,7 @@
     padding: 4%;
     background-color: rgb(227, 227, 227);
     border-radius: 5px;
-    border-left: 1rem solid @Model.Image;
+    border-left: 1rem solid @ViewData["ThemeColor"];
 }
 
 </style>
@@ -42,7 +42,7 @@
             <div class="col-lg-8">
                 <div class="ftco-animate fadeInUp ftco-animated mb-5">
                     <span class="d-flex justify-content-between category d-block">
-                        <a asp-action="GetArticlesByCategoryId" asp-controller="Articles" asp-route-id="@Model.CategoryId" class="h6" style="color: @Model.Image">@Model.CategoryName.ToUpper()</a>
+                        <a asp-action="GetArticlesByCategoryId" asp-controller="Articles" asp-route-id="@Model.CategoryId" class="h6" style="color: @ViewData["ThemeColor"]">@Model.CategoryName.ToUpper()</a>
                         <div class="half order-md-last h-5">
                             <p class="meta">
                                 <span><i class="icon-eye mr-2"></i>@Model.ReaderCount</span>

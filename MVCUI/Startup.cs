@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCUI.ActionFilters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,18 +36,8 @@ namespace MVCUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             services.AddAutoMapper(typeof(MainMappers));
-            services.AddMemoryCache();
-
-            services.AddScoped<IArticleService, ArticleManager>();
-            services.AddScoped<IArticleDal, EfArticleDal>();
-            services.AddScoped<ICategoryService, CategoryManager>();
-            services.AddScoped<ICategoryDal, EfCategoryDal>();
-
-            services.AddDbContext<Context>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("BlogDbConnectionString"));
-            });
 
             services.AddServiceModules(new IServiceModule[]
             {

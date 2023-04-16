@@ -1,6 +1,7 @@
 ﻿@model ArticleReadDto
 
 @{
+    var meta = (MetaTicket) ViewData["MetaInfo"];
 }
 
 <style>
@@ -61,6 +62,7 @@
                 </div>
 
                 @*@await Component.InvokeAsync("Comment")*@
+
             </div>
             <div class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">
 
@@ -68,11 +70,16 @@
 
                 @await Component.InvokeAsync("LastArticles", new { length = 5 })
 
-                @*@await Component.InvokeAsync("Contact")*@
-
-                @*@await Component.InvokeAsync("Archive")*@
-
             </div>
         </div>
     </div>
 </section>
+
+
+@section MetaInfo{
+    <meta name="title" content="@meta?.Title">
+    <meta name="description" content="@meta?.Description">
+    <meta name="keywords" content="@meta?.KeyWords">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+}

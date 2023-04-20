@@ -37,7 +37,7 @@ namespace Business
 
             services.AddDbContext<Context>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("BlogDbConnectionString"));
+                options.UseSqlServer(Configuration.GetConnectionString("BlogDbLive"));
             });
 
         }

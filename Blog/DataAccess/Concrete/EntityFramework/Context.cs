@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
     public class Context : DbContext
     {
         public Context() { }
-        public Context(DbContextOptions<Context> options): base(options) { }
+        public Context(DbContextOptions<Context> options) : base(options) { }
         //public Context(DbContextOptions options) : base(options) { }
 
         public DbSet<Article> Articles { get; set; }
@@ -28,7 +28,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         public override int SaveChanges()
         {
-            var dataEntries = ChangeTracker.Entries<BaseEntity<object>>();
+            var dataEntries = ChangeTracker.Entries<BaseEntity<Guid>>();
             foreach (var data in dataEntries)
             {
                 switch (data.State)

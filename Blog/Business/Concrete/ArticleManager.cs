@@ -29,7 +29,6 @@ namespace Business.Concrete
 
         public IResult Add(Article article)
         {
-            _memoryCache.TryGetValue("den", out var result);
             _articleDal.Add(article);
             _articleDal.Save();
             return new SuccessResult();

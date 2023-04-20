@@ -41,7 +41,8 @@ namespace MVCUI
 
             services.AddServiceModules(new IServiceModule[]
             {
-                new BusinessServiceModule(Configuration)
+                new BusinessServiceModule(Configuration),
+                new MeArchitectureServiceModule(Configuration)
             });
         }
 

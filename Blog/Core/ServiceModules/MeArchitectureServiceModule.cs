@@ -26,6 +26,12 @@ namespace Core.ServiceModules
         public void Load(IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddCookie(opts =>
+                {
+                    opts.Cookie.Name = $".appname.auth";
+                    opts.LoginPath = "/Home/Login";
+                    opts.SlidingExpiration = true;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters

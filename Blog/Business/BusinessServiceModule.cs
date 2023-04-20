@@ -33,6 +33,7 @@ namespace Business
             services.AddScoped<IArticleDal, EfArticleDal>();
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<ICategoryDal, EfCategoryDal>();
+            services.AddScoped<IAuthService, AuthManager>();
 
             services.AddDbContext<Context>(options =>
             {

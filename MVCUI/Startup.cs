@@ -37,11 +37,16 @@ namespace MVCUI
         {
             services.AddControllersWithViews();
 
+            services.AddCors(options =>
+                            options.AddDefaultPolicy(builder =>
+                            builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+
             services.AddAutoMapper(typeof(MainMappers));
 
             services.AddServiceModules(new IServiceModule[]
             {
-                new BusinessServiceModule(Configuration)
+                new BusinessServiceModule(Configuration),
+                new MeArchitectureServiceModule(Configuration)
             });
         }
 
@@ -63,6 +68,10 @@ namespace MVCUI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

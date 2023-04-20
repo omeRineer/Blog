@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -59,6 +60,13 @@ namespace Business.Concrete
             return new SuccessDataResult<IList<Article>>(result);
         }
 
+        public IDataResult<IList<Article>> GetAll()
+        {
+            var result = _articleDal.GetAll();
+
+            return new SuccessDataResult<IList<Article>>(result);
+        }
+
         public IDataResult<IList<Article>> GetAllByCategoryId(int categoryId, int page)
         {
             var result = _articleDal.GetAll(filter: x => x.CategoryId == categoryId
@@ -68,6 +76,20 @@ namespace Business.Concrete
                                             page: page);
 
             return new SuccessDataResult<IList<Article>>(result);
+        }
+
+        public IDataResult<IList<Article>> GetAllByCategoryId(int categoryId)
+        {
+            var result = _articleDal.GetAll(x=>x.CategoryId == categoryId);
+
+            return new SuccessDataResult<IList<Article>>(result);
+        }
+
+        public IDataResult<Article> GetArticle(Guid articleId)
+        {
+            var result = _articleDal.Get(x=>x.Id==articleId);
+
+            return new SuccessDataResult<Article>(result);
         }
 
         public IDataResult<int> GetArticlesCount(int? categoryId = null)
@@ -100,6 +122,7 @@ namespace Business.Concrete
         public IResult Update(Article article)
         {
             _articleDal.Update(article);
+            _articleDal.Save();
 
             return new SuccessResult();
         }

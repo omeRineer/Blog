@@ -21,7 +21,7 @@ namespace Core.Utilities.Identities.Jwt
             TokenOptions = options.Value;
         }
 
-        public AccessToken GenerateToken(User user, List<RoleClaim> roleClaims)
+        public AccessToken GenerateToken(User user, List<RoleClaim>? roleClaims)
         {
             var symetricSecurityKey = SecurityKeyHelper.GetSecurityKey(TokenOptions.SecurityKey);
             var signingCredentials = new SigningCredentials(symetricSecurityKey, SecurityAlgorithms.HmacSha256);

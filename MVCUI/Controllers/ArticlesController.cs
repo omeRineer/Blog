@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Entities.Concrete;
 using Entities.DTOs.Article;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -17,13 +18,15 @@ namespace MVCUI.Controllers
 
         readonly IArticleService _articleService;
         readonly ICategoryService _categoryService;
+        readonly IMetaTicketService _metaTicketService;
         readonly IMapper _mapper;
 
-        public ArticlesController(IArticleService articleService, IMapper mapper, ICategoryService categoryService)
+        public ArticlesController(IArticleService articleService, IMapper mapper, ICategoryService categoryService, IMetaTicketService metaTicketService)
         {
             _articleService = articleService;
             _mapper = mapper;
             _categoryService = categoryService;
+            _metaTicketService = metaTicketService;
         }
 
         [HttpGet("[action]")]
@@ -42,17 +45,29 @@ namespace MVCUI.Controllers
             return View(articlesReadDto);
         }
 
+        [HttpPost("[action]")]
+        public IActionResult AddArticle(ArticleCreateDto articleCreateDto)
+        {
+            var article = _mapper.Map<Article>(articleCreateDto);
+            var result = _articleService.Add(article);
+
+            if(!result.Success) return Json(result.Message);
+            return Json(result);
+        }
+
 
         [HttpGet("[action]")]
         [ReadCounter]
         public IActionResult GetArticle(Guid id)
         {
             var article = _articleService.GetById(id).Data;
+            var metaInfo = _metaTicketService.GetMetaTicketByArticleId(article.Id).Data;
 
             var result = _mapper.Map<ArticleReadDto>(article);
 
             ViewData["Title"] = result.Header;
             ViewData["ThemeColor"] = result.Image;
+            ViewData["MetaInfo"] = metaInfo;
 
             return View(result);
         }
@@ -63,13 +78,20 @@ namespace MVCUI.Controllers
             var articles = _articleService.GetAllByCategoryId(id, page).Data;
             var articlesCount = _articleService.GetArticlesCount(id).Data;
             var articlesReadDto = _mapper.Map<IList<ArticleReadDto>>(articles);
+            var category = _categoryService.GetById(id).Data;
 
             ViewData["CategoryId"] = id;
             ViewData["IsCategoryClick"] = true;
-            ViewData["Title"] = "Articles";
+            ViewData["Title"] = category.Name;
             ViewData["ArticlesCount"] = articlesCount;
             ViewData["CurrentPage"] = page;
-            ViewData["CategoryTheme"] = _categoryService.GetById(id).Data.Image;
+            ViewData["CategoryTheme"] = category.Image;
+            ViewData["MetaInfo"] = new MetaTicket
+            {
+                Title = category.Name,
+                Description = $"{category.Name} kategorisi",
+                KeyWords = category.Name.ToLower()
+            };
 
             return View("Index", articlesReadDto);
         }

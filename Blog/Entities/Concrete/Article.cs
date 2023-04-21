@@ -15,6 +15,7 @@ namespace Entities.Concrete
         public bool Status { get; set; }
 
         public Category Category { get; set; }
+        public MetaTicket MetaTicket { get; set; }
     }
 
 }

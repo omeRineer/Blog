@@ -98,5 +98,16 @@ namespace MVCUI.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("[action]")]
+        [Authorize]
+        public IActionResult GetCategories()
+        {
+            var result = _categoryService.GetAll();
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
     }
 }

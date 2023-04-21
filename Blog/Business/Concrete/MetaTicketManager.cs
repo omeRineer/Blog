@@ -22,6 +22,18 @@ namespace Business.Concrete
             _memoryCache = memoryCache;
         }
 
+        public IResult Add(MetaTicket metaTicket)
+        {
+            _metaTicketDal.Add(metaTicket);
+            return new SuccessResult();
+        }
+
+        public IResult Delete(MetaTicket metaTicket)
+        {
+            _metaTicketDal.Delete(metaTicket);
+            return new SuccessResult();
+        }
+
         public IDataResult<MetaTicket> GetMetaTicketByArticleId(Guid articleId)
         {
             string cacheKey =$"article:{articleId}";
@@ -39,6 +51,12 @@ namespace Business.Concrete
             });
 
             return new SuccessDataResult<MetaTicket>(result);
+        }
+
+        public IResult Update(MetaTicket metaTicket)
+        {
+            _metaTicketDal.Update(metaTicket);
+            return new SuccessResult();
         }
     }
 }

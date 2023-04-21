@@ -15,11 +15,13 @@ namespace MVCUI.Controllers
         readonly IAuthService _authService;
         readonly IArticleService _articleService;
         readonly ICategoryService _categoryService;
-        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService)
+        readonly IMetaTicketService _metaTicketService;
+        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService, IMetaTicketService metaTicketService)
         {
             _authService = authService;
             _articleService = articleService;
             _categoryService = categoryService;
+            _metaTicketService = metaTicketService;
         }
 
 
@@ -33,6 +35,18 @@ namespace MVCUI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("[action]")]
+        [Authorize]
+        public IActionResult GetCategories()
+        {
+            var result = _categoryService.GetAll();
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        #region Articles
         [HttpGet("[action]")]
         [Authorize]
         public IActionResult GetArticlesByCategoryId(int categoryId)
@@ -98,16 +112,63 @@ namespace MVCUI.Controllers
 
             return Ok(result);
         }
+        #endregion
 
+        #region Meta Tickets
         [HttpGet("[action]")]
         [Authorize]
-        public IActionResult GetCategories()
+        public IActionResult GetSeo(Guid articleId)
         {
-            var result = _categoryService.GetAll();
+            var result = _metaTicketService.GetByArticleId(articleId);
 
             if (!result.Success) return BadRequest(result);
 
             return Ok(result);
         }
+
+        [HttpGet("[action]")]
+        [Authorize]
+        public IActionResult GetSeoList()
+        {
+            var result = _metaTicketService.GetMetaTickets();
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult AddSeo(MetaTicket meta)
+        {
+            var result = _metaTicketService.Add(meta);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult DeleteSeo(MetaTicket meta)
+        {
+            var result = _metaTicketService.Delete(meta);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult UpdateSeo(MetaTicket meta)
+        {
+            var result = _metaTicketService.Update(meta);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+        #endregion
     }
 }

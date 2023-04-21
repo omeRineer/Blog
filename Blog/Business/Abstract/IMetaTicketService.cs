@@ -11,6 +11,8 @@ namespace Business.Abstract
     public interface IMetaTicketService
     {
         IDataResult<MetaTicket> GetMetaTicketByArticleId(Guid articleId);
+        IDataResult<MetaTicket> GetByArticleId(Guid articleId);
+        IDataResult<List<MetaTicket>> GetMetaTickets();
         IResult Add(MetaTicket metaTicket);
         IResult Delete(MetaTicket metaTicket);
         IResult Update(MetaTicket metaTicket);

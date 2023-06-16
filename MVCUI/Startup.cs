@@ -42,6 +42,7 @@ namespace MVCUI
                             builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
             services.AddAutoMapper(typeof(MainMappers));
+            
 
             services.AddServiceModules(new IServiceModule[]
             {

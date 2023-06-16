@@ -5,6 +5,7 @@ using Core.ServiceModules;
 using Core.Utilities.ServiceTools;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using MeArch.Module.File.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,10 +37,17 @@ namespace Business
             services.AddScoped<IMetaTicketService, MetaTicketManager>();
             services.AddScoped<IMetaTicketDal, EfMetaTicketDal>();
             services.AddScoped<IAuthService, AuthManager>();
+            services.AddScoped<IImageService, ImageManager>();
+            services.AddScoped<IImageDal, EfImageDal>();
 
             services.AddDbContext<Context>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BlogDbConnectionString"));
+            });
+
+            services.AddFileService(x =>
+            {
+                x.FilePath = "./wwwroot/Images";
             });
 
         }

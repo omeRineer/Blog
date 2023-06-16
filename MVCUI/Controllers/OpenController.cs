@@ -16,12 +16,14 @@ namespace MVCUI.Controllers
         readonly IArticleService _articleService;
         readonly ICategoryService _categoryService;
         readonly IMetaTicketService _metaTicketService;
-        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService, IMetaTicketService metaTicketService)
+        readonly IImageService _imageService;
+        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService, IMetaTicketService metaTicketService, IImageService imageService)
         {
             _authService = authService;
             _articleService = articleService;
             _categoryService = categoryService;
             _metaTicketService = metaTicketService;
+            _imageService = imageService;
         }
 
 
@@ -170,5 +172,26 @@ namespace MVCUI.Controllers
             return Ok(result);
         }
         #endregion
+
+        #region UploadImage
+
+        [HttpPost("[action]")]
+        public IActionResult UploadImage(Test test)
+        {
+            var file = Request.Form.Files[0];
+            //var result = _imageService.Add(image, file);
+
+            //if (!result.Success) return BadRequest(result);
+
+            return Ok();
+        }
+
+        #endregion
+    }
+
+    public class Test
+    {
+        public string ArticleId { get; set; }
+        public IFormFile File { get; set; }
     }
 }

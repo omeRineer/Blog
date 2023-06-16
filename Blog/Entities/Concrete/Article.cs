@@ -1,5 +1,7 @@
 ﻿using Core.Entities.Abstract;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ namespace Entities.Concrete
 
         public Category Category { get; set; }
         public MetaTicket MetaTicket { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 
 }

@@ -56,6 +56,38 @@ namespace DataAccess.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("Entities.Concrete.Attachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("ArticleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Meta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("RecordState")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Attachments");
+                });
+
             modelBuilder.Entity("Entities.Concrete.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -130,6 +162,17 @@ namespace DataAccess.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Entities.Concrete.Attachment", b =>
+                {
+                    b.HasOne("Entities.Concrete.Article", "Article")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+                });
+
             modelBuilder.Entity("Entities.Concrete.MetaTicket", b =>
                 {
                     b.HasOne("Entities.Concrete.Article", "Article")
@@ -143,6 +186,8 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.Article", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("MetaTicket");
                 });
 

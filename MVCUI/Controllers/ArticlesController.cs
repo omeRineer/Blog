@@ -48,8 +48,7 @@ namespace MVCUI.Controllers
         [HttpPost("[action]")]
         public IActionResult AddArticle(ArticleCreateDto articleCreateDto)
         {
-            var article = _mapper.Map<Article>(articleCreateDto);
-            var result = _articleService.Add(article);
+            var result = _articleService.Add(articleCreateDto);
 
             if(!result.Success) return Json(result.Message);
             return Json(result);

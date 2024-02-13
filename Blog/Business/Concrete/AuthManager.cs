@@ -30,7 +30,7 @@ namespace Business.Concrete
                 return new SuccessDataResult<AccessToken>(token);
             }
 
-            return new ErrorDataResult<AccessToken>();
+            return new ErrorDataResult<AccessToken>("Giriş bilgileri hatalı!");
         }
     }
 }

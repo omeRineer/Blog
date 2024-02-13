@@ -3,6 +3,7 @@ using Core.Utilities.ResultTool;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.Category;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Memory;
 using System;
@@ -24,26 +25,38 @@ namespace Business.Concrete
             _memoryCache = memoryCache;
         }
 
-        public IResult Add(Category category)
+        public IResult Add(CategoryCreateDto category)
         {
-            _categoryDal.Add(category);
+            var entity = new Category
+            {
+                Name = category.Name,
+                Image = category.Image
+            };
+            _categoryDal.Add(entity);
 
             return new SuccessResult();
         }
 
-        public IResult Delete(Category category)
+        public IResult Delete(CategoryDeleteDto category)
         {
-            _categoryDal.Delete(category);
+            var entity = _categoryDal.Get(f => f.Id == category.Id);
+            _categoryDal.Delete(entity);
 
             return new SuccessResult();
         }
 
-        public IDataResult<IList<Category>> GetAll()
+        public IDataResult<IList<CategoryReadDto>> GetAll()
         {
 
-            var result= _categoryDal.GetAll();
+            var result = _categoryDal.GetAll(includes: i => i.Include(x => x.Articles)).Select(s => new CategoryReadDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Image = s.Image,
+                ArticleCount = s.Articles.Count
+            }).ToList();
 
-            return new SuccessDataResult<IList<Category>>(result);
+            return new SuccessDataResult<IList<CategoryReadDto>>(result);
         }
 
         public IDataResult<IList<CategoryReadDto>> GetAllByCategoryReadDto()
@@ -55,21 +68,33 @@ namespace Business.Concrete
 
         public IDataResult<IList<KeyValuePair<int, string>>> GetAllByDropdown()
         {
-            var result = _categoryDal.GetAll().Select(x=> new KeyValuePair<int, string>(x.Id, x.Name)).ToList();
+            var result = _categoryDal.GetAll().Select(x => new KeyValuePair<int, string>(x.Id, x.Name)).ToList();
 
             return new SuccessDataResult<IList<KeyValuePair<int, string>>>(result);
         }
 
-        public IDataResult<Category> GetById(int id)
+        public IDataResult<CategoryReadDto> GetById(int id)
         {
-            var result = _categoryDal.Get(x => x.Id == id);
+            var entity = _categoryDal.Get(x => x.Id == id, i => i.Include(x => x.Articles));
 
-            return new SuccessDataResult<Category>(result);
+            var result = new CategoryReadDto
+            {
+                Id = entity.Id,
+                ArticleCount = entity.Articles.Count,
+                Name = entity.Name,
+                Image = entity.Image
+            };
+
+            return new SuccessDataResult<CategoryReadDto>(result);
         }
 
-        public IResult Update(Category category)
+        public IResult Update(CategoryUpdateDto category)
         {
-            _categoryDal.Update(category);
+            var entity = _categoryDal.Get(x => x.Id == category.Id);
+
+            entity.Name = category.Name;
+            entity.Image = category.Image;
+            _categoryDal.Update(entity);
 
             return new SuccessResult();
         }

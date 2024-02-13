@@ -33,6 +33,8 @@ namespace Business
             services.AddScoped<IArticleDal, EfArticleDal>();
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<ICategoryDal, EfCategoryDal>();
+            services.AddScoped<IAttachmentService, AttachmentService>();
+            services.AddScoped<IAttachmentDal, EfAttachmentDal>();
             services.AddScoped<IMetaTicketService, MetaTicketManager>();
             services.AddScoped<IMetaTicketDal, EfMetaTicketDal>();
             services.AddScoped<IAuthService, AuthManager>();

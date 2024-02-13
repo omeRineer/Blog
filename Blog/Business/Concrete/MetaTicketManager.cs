@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Core.Entities.Abstract;
 using Core.Utilities.ResultTool;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs.MetaTicket;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
@@ -23,36 +25,68 @@ namespace Business.Concrete
             _memoryCache = memoryCache;
         }
 
-        public IResult Add(MetaTicket metaTicket)
+        public IResult Add(MetaTicketCreateDto metaTicket)
         {
-            _metaTicketDal.Add(metaTicket);
+            var entity = new MetaTicket
+            {
+                ArticleId = metaTicket.ArticleId,
+                KeyWords = metaTicket.KeyWords,
+                Title = metaTicket.Title,
+                Description = metaTicket.Description
+            };
+
+            _metaTicketDal.Add(entity);
             _metaTicketDal.Save();
             return new SuccessResult();
         }
 
-        public IResult Delete(MetaTicket metaTicket)
+        public IResult Delete(MetaTicketDeleteDto metaTicket)
         {
-            _metaTicketDal.Delete(metaTicket);
+            var entity = _metaTicketDal.Get(f => f.Id == metaTicket.Id);
+            _metaTicketDal.Delete(entity);
             _metaTicketDal.Save();
             return new SuccessResult();
         }
 
-        public IDataResult<MetaTicket> GetByArticleId(Guid articleId)
+        public IDataResult<MetaTicketReadDto> GetByArticleId(Guid articleId)
         {
-            var result = _metaTicketDal.Get(x => x.ArticleId == articleId);
+            var entity = _metaTicketDal.Get(x => x.ArticleId == articleId);
 
-            return new SuccessDataResult<MetaTicket>(result);
+            var result = new MetaTicketReadDto
+            {
+                Id = entity.Id,
+                ArticleId = entity.ArticleId,
+                CreateDate = entity.CreateDate,
+                Description = entity.Description,
+                KeyWords = entity.KeyWords,
+                Title = entity.Title
+            };
+
+            return new SuccessDataResult<MetaTicketReadDto>(result);
         }
 
-        public IDataResult<MetaTicket> GetMetaTicketByArticleId(Guid articleId)
+        public IDataResult<MetaTicketReadDto> GetMetaTicketByArticleId(Guid articleId)
         {
             string cacheKey = $"article:{articleId}";
-            if (_memoryCache.TryGetValue(cacheKey, out MetaTicket value))
+            if (_memoryCache.TryGetValue(cacheKey, out MetaTicketReadDto value))
             {
-                return new SuccessDataResult<MetaTicket>(value);
+                return new SuccessDataResult<MetaTicketReadDto>(value);
             }
 
-            var result = _metaTicketDal.Get(x => x.ArticleId == articleId);
+            var entity = _metaTicketDal.Get(x => x.ArticleId == articleId);
+
+            if (entity == null)
+                return new ErrorDataResult<MetaTicketReadDto>();
+
+            var result = new MetaTicketReadDto
+            {
+                Id = entity.Id,
+                ArticleId = entity.ArticleId,
+                CreateDate = entity.CreateDate,
+                Description = entity.Description,
+                KeyWords = entity.KeyWords,
+                Title = entity.Title
+            };
 
             _memoryCache.Set(cacheKey, result, new MemoryCacheEntryOptions
             {
@@ -60,19 +94,34 @@ namespace Business.Concrete
                 Priority = CacheItemPriority.Normal,
             });
 
-            return new SuccessDataResult<MetaTicket>(result);
+            return new SuccessDataResult<MetaTicketReadDto>(result);
         }
 
-        public IDataResult<List<MetaTicket>> GetMetaTickets()
+        public IDataResult<List<MetaTicketReadDto>> GetMetaTickets()
         {
-            var result = _metaTicketDal.GetAll();
+            var result = _metaTicketDal.GetAll(isGetPaging: false).Select(s => new MetaTicketReadDto
+            {
+                Id = s.Id,
+                ArticleId = s.ArticleId,
+                CreateDate = s.CreateDate,
+                Description = s.Description,
+                KeyWords = s.KeyWords,
+                Title = s.Title
+            }).ToList();
 
-            return new SuccessDataResult<List<MetaTicket>>(result);
+            return new SuccessDataResult<List<MetaTicketReadDto>>(result);
         }
 
-        public IResult Update(MetaTicket metaTicket)
+        public IResult Update(MetaTicketUpdateDto metaTicket)
         {
-            _metaTicketDal.Update(metaTicket);
+            var entity = _metaTicketDal.Get(f => f.Id == metaTicket.Id);
+
+            entity.Title = metaTicket.Title;
+            entity.Description = metaTicket.Description;
+            entity.KeyWords = metaTicket.KeyWords;
+            entity.ArticleId = metaTicket.ArticleId;
+
+            _metaTicketDal.Update(entity);
             _metaTicketDal.Save();
             return new SuccessResult();
         }

@@ -3,6 +3,7 @@ using Entities.Concrete;
 using Entities.DTOs.Article;
 using Entities.DTOs.Attachment;
 using Entities.DTOs.Auth;
+using Entities.DTOs.BackgroundJob;
 using Entities.DTOs.MetaTicket;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,14 +21,16 @@ namespace MVCUI.Controllers
         readonly IArticleService _articleService;
         readonly ICategoryService _categoryService;
         readonly IMetaTicketService _metaTicketService;
+        readonly IBackgroundJobService _backgroundJobService;
         readonly IAttachmentService _attachmentService;
-        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService, IMetaTicketService metaTicketService, IAttachmentService attachmentService)
+        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService, IMetaTicketService metaTicketService, IAttachmentService attachmentService, IBackgroundJobService backgroundJobService)
         {
             _authService = authService;
             _articleService = articleService;
             _categoryService = categoryService;
             _metaTicketService = metaTicketService;
             _attachmentService = attachmentService;
+            _backgroundJobService = backgroundJobService;
         }
 
 
@@ -57,7 +60,7 @@ namespace MVCUI.Controllers
         [Authorize]
         public IActionResult GetArticlesByCategoryId(int categoryId)
         {
-            var result = _articleService.GetAllByCategoryId(categoryId);
+            var result = _articleService.GetAllByCategoryId(categoryId, false);
 
             if (!result.Success) return BadRequest(result);
 
@@ -199,5 +202,63 @@ namespace MVCUI.Controllers
 
             return Ok(result);
         }
+
+
+        #region Background Job
+        [HttpGet("[action]")]
+        [Authorize]
+        public IActionResult GetBackgroundJob(int id)
+        {
+            var result = _backgroundJobService.GetById(id);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        [Authorize]
+        public IActionResult GetBackgroundJobList()
+        {
+            var result = _backgroundJobService.GetList();
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult AddBackgroundJob(BackgroundJobCreateDto backgroundJobCreateDto)
+        {
+            var result = _backgroundJobService.Add(backgroundJobCreateDto);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult DeleteBackgroundJob(BackgroundJobDeleteDto backgroundJobDeleteDto)
+        {
+            var result = _backgroundJobService.Delete(backgroundJobDeleteDto);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult UpdateBackgroundJob(BackgroundJobUpdateDto backgroundJobUpdateDto)
+        {
+            var result = _backgroundJobService.Update(backgroundJobUpdateDto);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+        #endregion
     }
 }

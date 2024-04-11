@@ -2,6 +2,7 @@ using Business;
 using Core.Extensions;
 using Core.ServiceModules;
 using Hangfire;
+using BackgroundJobs.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Core;
+using Core.Utilities.ServiceTools;
 
 namespace HangFire
 {
@@ -30,33 +33,44 @@ namespace HangFire
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+                            options.AddDefaultPolicy(builder =>
+                            builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+
+            services.AddMemoryCache();
+
+            services.AddControllers();
+
+            services.AddSchedulerJobs();
 
             services.AddServiceModules(new IServiceModule[]
             {
-                new BusinessServiceModule(Configuration)
+                new BusinessServiceModule(),
+                new MeArchitectureServiceModule()
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HangFire v1"));
-            }
-
-            app.UseHttpsRedirection();
+            StaticServiceProvider.CreateInstance(app.ApplicationServices.GetService<IServiceScopeFactory>());
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseSchedulerJobs();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

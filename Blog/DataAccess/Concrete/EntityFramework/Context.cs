@@ -21,6 +21,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Category> Categories { get; set; }
         public DbSet<MetaTicket> MetaTickets { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<BackgroundJob> BackgroundJobs { get; set; }
+        public DbSet<Subscriber> Subscribers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

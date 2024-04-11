@@ -77,7 +77,7 @@ namespace Business.Concrete
         }
         public IDataResult<IList<ArticleReadDto>> GetAll(bool isGetPaging = true)
         {
-            var result = _articleDal.GetAll(includes: i => i.Include(x => x.Category).Include(x => x.Attachments), isGetPaging:isGetPaging).Select(s => new ArticleReadDto
+            var result = _articleDal.GetAll(includes: i => i.Include(x => x.Category).Include(x => x.Attachments), isGetPaging: isGetPaging).Select(s => new ArticleReadDto
             {
                 Id = s.Id,
                 Header = s.Header,
@@ -106,9 +106,9 @@ namespace Business.Concrete
 
             return new SuccessDataResult<IList<Article>>(result);
         }
-        public IDataResult<IList<ArticleReadDto>> GetAllByCategoryId(int categoryId)
+        public IDataResult<IList<ArticleReadDto>> GetAllByCategoryId(int categoryId, bool isGetPaging = true)
         {
-            var result = _articleDal.GetAll(x => x.CategoryId == categoryId, i => i.Include(x => x.Category).Include(x => x.Attachments)).Select(s => new ArticleReadDto
+            var result = _articleDal.GetAll(x => x.CategoryId == categoryId, i => i.Include(x => x.Category).Include(x => x.Attachments), isGetPaging: isGetPaging).Select(s => new ArticleReadDto
             {
                 Id = s.Id,
                 Header = s.Header,

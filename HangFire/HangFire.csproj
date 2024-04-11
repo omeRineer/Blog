@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+	  <PreserveCompilationReferences>true</PreserveCompilationReferences>
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BackgroundJobs\BackgroundJobs.csproj" />
     <ProjectReference Include="..\Blog\Business\Business.csproj" />
     <ProjectReference Include="..\Blog\Core\Core.csproj" />
     <ProjectReference Include="..\Blog\DataAccess\DataAccess.csproj" />

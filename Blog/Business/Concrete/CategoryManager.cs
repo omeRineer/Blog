@@ -41,7 +41,7 @@ namespace Business.Concrete
         public IDataResult<IList<Category>> GetAll()
         {
 
-            var result= _categoryDal.GetAll();
+            var result= _categoryDal.GetAll(length: 1000);
 
             return new SuccessDataResult<IList<Category>>(result);
         }

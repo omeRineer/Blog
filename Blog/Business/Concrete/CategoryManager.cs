@@ -48,7 +48,7 @@ namespace Business.Concrete
         public IDataResult<IList<CategoryReadDto>> GetAll()
         {
 
-            var result = _categoryDal.GetAll(includes: i => i.Include(x => x.Articles)).Select(s => new CategoryReadDto
+            var result = _categoryDal.GetAll(includes: i => i.Include(x => x.Articles), isGetPaging: false).Select(s => new CategoryReadDto
             {
                 Id = s.Id,
                 Name = s.Name,

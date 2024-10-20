@@ -1,4 +1,5 @@
 ﻿using Entities.DTOs.Attachment;
+using Entities.DTOs.Comment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace Entities.DTOs.Article
         public int ReaderCount { get; set; }
         public DateTime CreateDate { get; set; }
         public List<AttachmentReadDto>? Attachments { get; set; }
+        public List<CommentReadDto>? Comments { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace Entities.Concrete
         public Category Category { get; set; }
         public MetaTicket MetaTicket { get; set; }
         public ICollection<Attachment> Attachments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 
 }

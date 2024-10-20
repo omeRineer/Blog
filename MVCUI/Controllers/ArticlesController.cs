@@ -2,6 +2,7 @@
 using Business.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.Article;
+using Entities.DTOs.Comment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
@@ -19,14 +20,16 @@ namespace MVCUI.Controllers
         readonly IArticleService _articleService;
         readonly ICategoryService _categoryService;
         readonly IMetaTicketService _metaTicketService;
+        readonly ICommentService _commentService;
         readonly IMapper _mapper;
 
-        public ArticlesController(IArticleService articleService, IMapper mapper, ICategoryService categoryService, IMetaTicketService metaTicketService)
+        public ArticlesController(IArticleService articleService, IMapper mapper, ICategoryService categoryService, IMetaTicketService metaTicketService, ICommentService commentService)
         {
             _articleService = articleService;
             _mapper = mapper;
             _categoryService = categoryService;
             _metaTicketService = metaTicketService;
+            _commentService = commentService;
         }
 
         [HttpGet("[action]")]
@@ -51,6 +54,16 @@ namespace MVCUI.Controllers
             var result = _articleService.Add(articleCreateDto);
 
             if(!result.Success) return Json(result.Message);
+            return Json(result);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult AddComment(CommentCreateDto req)
+        {
+            var result = _commentService.Create(req);
+
+            if (!result.Success) return Json(result);
+
             return Json(result);
         }
 

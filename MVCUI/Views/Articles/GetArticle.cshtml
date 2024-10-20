@@ -61,7 +61,7 @@
 
                 </div>
 
-                @*@await Component.InvokeAsync("Comment")*@
+                @await Component.InvokeAsync("Comment", new { comments = Model.Comments })
 
             </div>
             <div class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">

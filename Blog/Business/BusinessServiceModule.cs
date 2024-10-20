@@ -41,6 +41,10 @@ namespace Business
             services.AddScoped<ISubscriberDal, EfSubscriberDal>();
             services.AddScoped<ISubscriberService, SubscriberService>();
 
+            services.AddScoped<ICommentDal, EfCommmentDal>();
+            services.AddScoped<ICommentService, CommentManager>();
+
+
             services.AddScoped<IBackgroundJobDal, EfBackgroundJobDal>();
             services.AddScoped<IBackgroundJobService, BackgroundJobService>();
 

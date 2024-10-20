@@ -23,6 +23,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<BackgroundJob> BackgroundJobs { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

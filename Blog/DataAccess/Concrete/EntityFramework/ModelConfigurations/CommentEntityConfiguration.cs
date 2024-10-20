@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework.ModelConfigurations
 {
-    public class ArticleEntityConfiguration : IEntityTypeConfiguration<Article>
+    public class CommentEntityConfiguration : IEntityTypeConfiguration<Comment>
     {
-        public void Configure(EntityTypeBuilder<Article> builder)
+        public void Configure(EntityTypeBuilder<Comment> builder)
         {
+            
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿
-@{
-}
+﻿@model List<Entities.DTOs.Comment.CommentReadDto>
 
 <style>
     .new-comment {
@@ -90,18 +88,21 @@
 
     <h4 class="mb-3 font-weight-bold">Yorumlar</h4>
     <hr>
-    <div class="comment">
-        <div class="comment-header">
-            <img id="user-photo" class="user-photo" src="./images/user-photo.png" alt="">
-            <div class="comment-header-info">
-                <h6>Ömer Faruk Sandıkçı</h6>
-                <span>omer@gmail.com</span>
+
+    @foreach (var comment in Model.Where(f => f.ParentId == null))
+    {
+        <div class="comment">
+            <div class="comment-header">
+                <img id="user-photo" class="user-photo" src="./images/user-photo.png" alt="">
+                <div class="comment-header-info">
+                    <h6>@comment.Name</h6>
+                </div>
+            </div>
+            <div class="comment-body">
+                <p><strong>@comment.Content</strong></p>
             </div>
         </div>
-        <div class="comment-body">
-            <p><strong>Selamlar herkese</strong></p>
-        </div>
-    </div>
+    }
 
     <div class="new-comment">
         <h5 class="mb-3 font-weight-bold">Yorum Yap</h5>
@@ -110,10 +111,6 @@
             <div class="comment-name">
                 <label for="name">Ad</label>
                 <input type="text" id="name" class="comment-form">
-            </div>
-            <div class="comment-email">
-                <label for="email">Email</label>
-                <input type="email" class="comment-form" name="" id="email">
             </div>
             <div class="comment-content">
                 <label for="content">Yorum</label>
@@ -127,3 +124,8 @@
     </div>
 
 </div>
+
+<script>
+    
+
+</script>

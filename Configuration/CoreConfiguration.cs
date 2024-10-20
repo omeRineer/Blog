@@ -20,7 +20,7 @@ namespace Configuration
                                 .Build();
         }
 
-        public static string ConnectionString { get => Configuration.GetConnectionString("BlogDbLive"); }
+        public static string ConnectionString { get => Configuration.GetConnectionString("BlogDbConnectionString"); }
         public static EmailOptions EmailOptions { get => Configuration.GetSection("EmailOptions").Get<EmailOptions>(); }
         public static TokenOptions TokenOptions { get => Configuration.GetSection("TokenOptions").Get<TokenOptions>(); }
 

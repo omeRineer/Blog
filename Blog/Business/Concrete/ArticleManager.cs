@@ -162,7 +162,7 @@ namespace Business.Concrete
         }
         public IDataResult<Article> GetById(Guid id)
         {
-            var result = _articleDal.Get(x => x.Id == id && x.Status == true, x => x.Include(y => y.Category));
+            var result = _articleDal.Get(x => x.Id == id && x.Status == true && x.Comments.Any(x=>x.IsOnline == true), x => x.Include(y => y.Category).Include(y => y.Comments));
 
             return new SuccessDataResult<Article>(result);
         }

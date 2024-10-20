@@ -1,7 +1,4 @@
 ﻿
-@{
-}
-
 <style>
     .description {
         color: white;
@@ -19,13 +16,54 @@
         margin-bottom: 3px;
     }
 
-    .subscribe-form:focus{
-        border: 0.4px solid purple;
-    }
+        .subscribe-form:focus {
+            border: 0.4px solid purple;
+        }
 </style>
 
 <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
     <h3 class="sidebar-heading">Abone Ol</h3>
-    <input type="email" class="subscribe-form mb-3" placeholder="Email Adresi">
-    <button class="btn btn-secondary w-100">Abone Ol</button>
+    <input id="emailAddress" type="email" class="subscribe-form mb-3" placeholder="Email Adresi">
+    <button class="btn btn-secondary w-100" onclick="Subscribe()">Abone Ol</button>
 </div>
+
+<script type="text/javascript">
+    async function Subscribe() {
+        var emailAddress = $("#emailAddress").val();
+
+        const data = { email: emailAddress }
+
+        Swal.showLoading();
+        const response = await fetch('@Url.Action("Subscribe", "Subscribers")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then(resp => {
+                if (resp.ok) {
+                    Swal.fire({
+                        title: "Abone Olundu",
+                        text: "Her hafta yeni yazılarımdan haberdar olmak için mail kutunu kontrol et.",
+                        icon: "success"
+                    });
+                    $("#emailAddress").val("")
+                }
+            else
+                Swal.fire({
+                    title: "HATA!",
+                    text: "Lütfen emaili kontrol ediniz",
+                    icon: "error"
+                });
+        })
+        .catch(err => {
+                Swal.fire({
+                    title: "HATA!",
+                    text: "Bir hata oluştu",
+                    icon: "error"
+                });
+            });
+
+    }
+</script>

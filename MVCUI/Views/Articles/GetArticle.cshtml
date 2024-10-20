@@ -1,7 +1,7 @@
 ﻿@model ArticleReadDto
 
 @{
-    var meta = (MetaTicket) ViewData["MetaInfo"];
+    var meta = (MetaTicketReadDto) ViewData["MetaInfo"];
 }
 
 <style>
@@ -69,6 +69,8 @@
                 @await Component.InvokeAsync("Categories")
 
                 @await Component.InvokeAsync("LastArticles", new { length = 5 })
+
+                @await Component.InvokeAsync("Subscribe")
 
             </div>
         </div>

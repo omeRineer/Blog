@@ -4,6 +4,7 @@ using Business.Concrete;
 using Business.Mappers;
 using Core.Extensions;
 using Core.ServiceModules;
+using Core.Utilities.ServiceTools;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
@@ -41,18 +42,19 @@ namespace MVCUI
                             options.AddDefaultPolicy(builder =>
                             builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
-            services.AddAutoMapper(typeof(MainMappers));
-
             services.AddServiceModules(new IServiceModule[]
             {
-                new BusinessServiceModule(Configuration),
-                new MeArchitectureServiceModule(Configuration)
+                new BusinessServiceModule(),
+                new MeArchitectureServiceModule()
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            StaticServiceProvider.CreateInstance(app.ApplicationServices.GetService<IServiceScopeFactory>());
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

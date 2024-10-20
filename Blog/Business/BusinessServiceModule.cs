@@ -13,33 +13,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Configuration;
 
 namespace Business
 {
     public class BusinessServiceModule : IServiceModule
     {
-        private readonly IConfiguration Configuration;
-
-        public BusinessServiceModule(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public void Load(IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.AddAutoMapper(typeof(BackgroundJobProfile));
 
             services.AddScoped<IArticleService, ArticleManager>();
             services.AddScoped<IArticleDal, EfArticleDal>();
+
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<ICategoryDal, EfCategoryDal>();
+
+            services.AddScoped<IAttachmentService, AttachmentService>();
+            services.AddScoped<IAttachmentDal, EfAttachmentDal>();
+
             services.AddScoped<IMetaTicketService, MetaTicketManager>();
             services.AddScoped<IMetaTicketDal, EfMetaTicketDal>();
+
             services.AddScoped<IAuthService, AuthManager>();
+
+            services.AddScoped<ISubscriberDal, EfSubscriberDal>();
+            services.AddScoped<ISubscriberService, SubscriberService>();
+
+            services.AddScoped<IBackgroundJobDal, EfBackgroundJobDal>();
+            services.AddScoped<IBackgroundJobService, BackgroundJobService>();
+
+            
 
             services.AddDbContext<Context>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("BlogDbLive"));
+                options.UseSqlServer(CoreConfiguration.ConnectionString);
             });
 
         }

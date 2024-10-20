@@ -1,0 +1,52 @@
+﻿<html lang="en">
+
+<head>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .area-header {
+            font-family: Bahnschrift;
+        }
+
+        .area-body {
+            font-family: Consolas;
+            width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .content-card {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            border: 1px transparent solid;
+            border-radius: 10px;
+            background-color: rgb(195, 195, 195);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="area">
+        <div class="area-header">
+            <h3>Buraya okuyabileceğin birkaç blog yazısı bırakıyorum. :)</h3>
+        </div>
+        <hr>
+        <div class="area-body">
+            @foreach (var item in Model)
+            {
+                <div class="content-card">
+                    <p style="font-size: 15px;margin: 0;display: inline;">@item.Category.Name - </p>
+                    <h3 style="margin:0;display: inline;"><a href="@($"https://coresnippets.com.tr/GetArticle?id={item.Id}")"> @item.Header</a></h3>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+
+</html>

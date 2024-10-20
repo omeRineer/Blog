@@ -13,12 +13,12 @@ namespace Business.Abstract
     {
         #region Admin
 
-        IResult Add(Article article);
-        IResult Delete(Article article);
-        IResult Update(Article article);
-        IDataResult<Article> GetArticle(Guid articleId);
-        IDataResult<IList<Article>> GetAllByCategoryId(int categoryId);
-        IDataResult<IList<Article>> GetAll();
+        IResult Add(ArticleCreateDto article);
+        IResult Delete(ArticleDeleteDto article);
+        IResult Update(ArticleUpdateDto article);
+        IDataResult<ArticleReadDto> GetArticle(Guid articleId);
+        IDataResult<IList<ArticleReadDto>> GetAllByCategoryId(int categoryId, bool isGetPaging = true);
+        IDataResult<IList<ArticleReadDto>> GetAll(bool isGetPaging = true);
 
         #endregion
 

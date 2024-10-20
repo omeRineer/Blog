@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Business.Mappers
 {
-    public class MainMappers : Profile
+    public class ArticleProfile : Profile
     {
-        public MainMappers()
+        public ArticleProfile()
         {
             CreateMap<Article, ArticleReadDto>()
                 .ForMember(x => x.CategoryId, y=>y.MapFrom(s=>s.CategoryId))

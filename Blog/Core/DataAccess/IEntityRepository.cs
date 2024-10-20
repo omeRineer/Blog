@@ -14,12 +14,13 @@ namespace Core.DataAccess
         List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null,
                              Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null,
                              Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-                             int page = 0, int length = 5);
+                             bool isGetPaging = true, int page = 0, int length = 5);
         TEntity Get(Expression<Func<TEntity, bool>> filter,
                     Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null);
 
         int GetDataCount(Expression<Func<TEntity, bool>> filter = null);
         void Add(TEntity entity);
+        void BulkAdd(IList<TEntity> entities);
         void Delete(TEntity entity);
         void Update(TEntity entity);
 

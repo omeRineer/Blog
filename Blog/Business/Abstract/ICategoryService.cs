@@ -7,11 +7,11 @@ namespace Business.Abstract
 {
     public interface ICategoryService
     {
-        IResult Add(Category category);
-        IResult Delete(Category category);
-        IResult Update(Category category);
-        IDataResult<IList<Category>> GetAll();
-        IDataResult<Category> GetById(int id);
+        IResult Add(CategoryCreateDto category);
+        IResult Delete(CategoryDeleteDto category);
+        IResult Update(CategoryUpdateDto category);
+        IDataResult<IList<CategoryReadDto>> GetAll();
+        IDataResult<CategoryReadDto> GetById(int id);
 
         IDataResult<IList<CategoryReadDto>> GetAllByCategoryReadDto();
         IDataResult<IList<KeyValuePair<int, string>>> GetAllByDropdown();

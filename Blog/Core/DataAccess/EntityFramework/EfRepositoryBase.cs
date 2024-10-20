@@ -47,7 +47,7 @@ namespace Core.DataAccess.EntityFramework
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null,
                                     Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null,
                                     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-                                    int page = 0, int length = 5)
+                                    bool isGetPaging = true, int page = 0, int length = 5)
         {
             IQueryable<TEntity> query = Table.AsQueryable();
 
@@ -55,7 +55,7 @@ namespace Core.DataAccess.EntityFramework
             if (includes != null) query = includes(query);
             if (orderBy != null) query = orderBy(query);
 
-            query = query.Skip(page * length).Take(length);
+            if (isGetPaging) query = query.Skip(page * length).Take(length);
             return query.ToList();
         }
 
@@ -75,6 +75,12 @@ namespace Core.DataAccess.EntityFramework
             int result = filter == null ? _context.Set<TEntity>().Count()
                                         : _context.Set<TEntity>().Count(filter);
             return result;
+        }
+
+        public void BulkAdd(IList<TEntity> entities)
+        {
+            _context.Set<TEntity>().AddRange(entities);
+            _context.SaveChanges();
         }
     }
 }

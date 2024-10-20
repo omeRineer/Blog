@@ -7,7 +7,7 @@
     @foreach (var article in Model)
     {
         <div class="block-21 mb-4 d-flex">
-            <a class="blog-img mr-4" style="background-color: @article.Image"></a>
+            <a asp-action="GetArticle" asp-controller="Articles" asp-route-id="@article.Id" class="blog-img mr-4" style="background-color: @article.Image"></a>
             <div class="text">
                 <h3 class="heading">
                     <a asp-action="GetArticle" asp-controller="Articles" asp-route-id="@article.Id">@article.Header</a>

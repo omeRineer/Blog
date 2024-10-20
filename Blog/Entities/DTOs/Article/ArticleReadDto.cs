@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.DTOs.Attachment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,9 @@ namespace Entities.DTOs.Article
         public string Header { get; set; }
         public string Content { get; set; }
         public string Image { get; set; }
+        public bool Status { get; set; }
         public int ReaderCount { get; set; }
         public DateTime CreateDate { get; set; }
+        public List<AttachmentReadDto>? Attachments { get; set; }
     }
 }

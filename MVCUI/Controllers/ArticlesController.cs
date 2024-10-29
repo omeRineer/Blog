@@ -53,7 +53,7 @@ namespace MVCUI.Controllers
         {
             var result = _articleService.Add(articleCreateDto);
 
-            if(!result.Success) return Json(result.Message);
+            if (!result.Success) return Json(result.Message);
             return Json(result);
         }
 
@@ -79,6 +79,7 @@ namespace MVCUI.Controllers
 
             ViewData["Title"] = result.Header;
             ViewData["ThemeColor"] = result.Image;
+
             ViewData["MetaInfo"] = metaInfo;
 
             return View(result);

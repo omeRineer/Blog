@@ -1,7 +1,11 @@
 ﻿@model ArticleReadDto
 
 @{
-    var meta = (MetaTicketReadDto) ViewData["MetaInfo"];
+    var metaInfo = ViewData["MetaInfo"];
+
+    MetaTicketReadDto meta = null;
+    if (metaInfo != null)
+        meta = (MetaTicketReadDto)metaInfo;
 }
 
 <style>
@@ -61,7 +65,7 @@
 
                 </div>
 
-                @await Component.InvokeAsync("Comment", new { comments = Model.Comments })
+                @await Component.InvokeAsync("Comment", new { comments = Model.Comments, ArticleId = Model.Id })
 
             </div>
             <div class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">
@@ -79,9 +83,9 @@
 
 
 @section MetaInfo{
-    <meta name="title" content="@meta?.Title">
-    <meta name="description" content="@meta?.Description">
-    <meta name="keywords" content="@meta?.KeyWords">
-    <meta name="robots" content="index, follow">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    @*<meta name="title" content="@meta?.Title">
+        <meta name="description" content="@meta?.Description">
+        <meta name="keywords" content="@meta?.KeyWords">
+        <meta name="robots" content="index, follow">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">*@
 }

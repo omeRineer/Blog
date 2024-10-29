@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs.Comment
 {
-    public class CommentCreateDto
+    public class CommentReplyDto
     {
-        public string ArticleId { get; set; }
-        public string? ParentId { get; set; }
+        public string ParentId { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
+        public bool IsOnline { get; set; }
     }
 }

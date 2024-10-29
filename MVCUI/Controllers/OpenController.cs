@@ -4,6 +4,7 @@ using Entities.DTOs.Article;
 using Entities.DTOs.Attachment;
 using Entities.DTOs.Auth;
 using Entities.DTOs.BackgroundJob;
+using Entities.DTOs.Comment;
 using Entities.DTOs.MetaTicket;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +24,8 @@ namespace MVCUI.Controllers
         readonly IMetaTicketService _metaTicketService;
         readonly IBackgroundJobService _backgroundJobService;
         readonly IAttachmentService _attachmentService;
-        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService, IMetaTicketService metaTicketService, IAttachmentService attachmentService, IBackgroundJobService backgroundJobService)
+        readonly ICommentService _commentService;
+        public OpenController(IAuthService authService, IArticleService articleService, ICategoryService categoryService, IMetaTicketService metaTicketService, IAttachmentService attachmentService, IBackgroundJobService backgroundJobService, ICommentService commentService)
         {
             _authService = authService;
             _articleService = articleService;
@@ -31,6 +33,7 @@ namespace MVCUI.Controllers
             _metaTicketService = metaTicketService;
             _attachmentService = attachmentService;
             _backgroundJobService = backgroundJobService;
+            _commentService = commentService;
         }
 
 
@@ -54,6 +57,41 @@ namespace MVCUI.Controllers
 
             return Ok(result);
         }
+
+        #region Comments
+        [HttpGet("[action]")]
+        [Authorize]
+        public IActionResult GetComments()
+        {
+            var result = _commentService.GetAll();
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult UpdateState(CommentUpdateStateDto req)
+        {
+            var result = _commentService.UpdateState(req);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public IActionResult ReplyComment(CommentReplyDto req)
+        {
+            var result = _commentService.Reply(req);
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
+        #endregion
 
         #region Articles
         [HttpGet("[action]")]

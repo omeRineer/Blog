@@ -11,5 +11,8 @@ namespace Business.Abstract
     public interface ICommentService
     {
         IResult Create(CommentCreateDto req);
+        IResult Reply(CommentReplyDto req);
+        IDataResult<List<CommentReadDto>> GetAll();
+        IResult UpdateState(CommentUpdateStateDto req);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entities.Concrete;
 using Entities.DTOs.Article;
+using Entities.DTOs.Comment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace Business.Mappers
                 .ForMember(x => x.Image, y=>y.MapFrom(s=>s.Category.Image));
 
             CreateMap<ArticleCreateDto, Article>().ReverseMap();
+
+            CreateMap<CommentRead_Article, Article>().ReverseMap();
         }
     }
 }

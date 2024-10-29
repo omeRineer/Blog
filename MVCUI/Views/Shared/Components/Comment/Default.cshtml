@@ -1,5 +1,8 @@
-﻿@model List<Entities.DTOs.Comment.CommentReadDto>
+﻿@model (List<Entities.DTOs.Comment.CommentReadDto> Comments, Guid ArticleId)
 
+@{
+    var onlineComments = Model.Comments.Where(f => f.IsOnline == true).ToList();
+}
 <style>
     .new-comment {
         width: 100%;
@@ -51,7 +54,6 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        margin-bottom: 10px;
     }
 
     .comment-header {
@@ -76,10 +78,47 @@
     }
 
     .user-photo {
-        height: 3rem;
-        width: 3rem;
+        height: 2rem;
+        width: 2rem;
         border-radius: 100%;
         margin-right: 1rem;
+    }
+
+
+    .reply {
+        width: 100%;
+        border-radius: 10px;
+        background-color: #efefef;
+        padding: 1rem 0 0 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .reply-header {
+        display: flex;
+        align-content: center;
+        margin-bottom: 1rem;
+    }
+
+        .reply-header h6 {
+            color: black;
+            text-align: center;
+        }
+
+    .reply-header-info {
+    }
+
+    .reply-body {
+        padding: 10px;
+        min-height: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+
+    #reply:hover {
+        color: darkcyan;
+        cursor: pointer;
     }
 </style>
 
@@ -89,18 +128,55 @@
     <h4 class="mb-3 font-weight-bold">Yorumlar</h4>
     <hr>
 
-    @foreach (var comment in Model.Where(f => f.ParentId == null))
+    @if (onlineComments != null && onlineComments.Count > 0)
     {
-        <div class="comment">
-            <div class="comment-header">
-                <img id="user-photo" class="user-photo" src="./images/user-photo.png" alt="">
-                <div class="comment-header-info">
-                    <h6>@comment.Name</h6>
+        @foreach (var comment in onlineComments.Where(f => f.ParentId == null)
+                                            .OrderBy(o => o.CreateDate))
+        {
+            <div class="comment mb-2">
+                <div class="comment-header">
+                    <img id="user-photo" class="user-photo" src="./images/user-photo.png" alt="">
+                    <div class="comment-header-info w-100">
+
+                        <div class="mb-2 d-flex justify-content-between">
+                            <strong class="h-50">@comment.Name</strong>
+                            <span>@comment.CreateDate.ToString("dd/MM/yyyy hh:mm")</span>
+                        </div>
+
+                        <div class="comment-body mb-1">
+                            <p>@comment.Content</p>
+                        </div>
+
+                        @*<div class="d-flex justify-content-end">
+                                <strong id="reply">Yanıtla</strong>
+                            </div>*@
+
+                        @foreach (var reply in onlineComments.Where(f => f.ParentId == comment.Id)
+                                                         .OrderBy(o => o.CreateDate))
+                        {
+                            <div class="reply">
+                                <div class="reply-header">
+                                    <div class="reply-header-info w-100">
+                                        <div class="mb-2 d-flex justify-content-between">
+                                            <strong class="h-50">@reply.Name</strong>
+                                            <span>@reply.CreateDate.ToString("dd/MM/yyyy hh:mm")</span>
+                                        </div>
+                                        <div class="reply-body">
+                                            <p>@reply.Content</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-            <div class="comment-body">
-                <p><strong>@comment.Content</strong></p>
-            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center mb-3">
+            <p>Hiç yorum yapılmamış. İlk yorumu sen yap.</p>
         </div>
     }
 
@@ -114,18 +190,62 @@
             </div>
             <div class="comment-content">
                 <label for="content">Yorum</label>
-                <textarea class="comment-form" name="" id="content" cols="30" rows="7"></textarea>
+                <textarea class="comment-form" id="content" cols="30" rows="7"></textarea>
             </div>
         </div>
         <div class="comment-actions">
-            <button class="btn btn-danger ml-2">Temizle</button>
-            <button class="btn btn-success ml-2">Gönder</button>
+            <button class="btn btn-danger ml-2" onclick="Clear()">Temizle</button>
+            <button class="btn btn-success ml-2" onclick="Send()">Gönder</button>
         </div>
     </div>
 
 </div>
+<script type="text/javascript">
+        function Clear() {
+            $("#name").val("")
+            $("#content").val("")
+        }
 
-<script>
-    
+        function Send() {
+            var name = $("#name").val();
+            var content = $("#content").val();
 
+            if (name == "" || content == "") {
+                Swal.fire({
+                    title: "Eksik Bilgi",
+                    text: "Lütfen isim ve yorum metnini giriniz",
+                    icon: "error"
+                });
+                return;
+            }
+
+
+            Swal.showLoading();
+            var commentData = {
+                    articleId: '@Model.ArticleId',
+                    name: name,
+                    content: content
+            }
+
+            fetch('@Url.Action("Send", "Comments")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                Swal.fire({
+                    title: "Yorumunuz işleme alındı",
+                    text: "",
+                    icon: "success"
+                });
+                Clear();
+            }).catch(err => {
+                Swal.fire({
+                    title: "Hata Alındı!",
+                    text: "",
+                    icon: "error"
+                });
+            })
+        }
 </script>

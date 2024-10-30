@@ -46,7 +46,7 @@
         border: 1px gray solid;
     }
 
-    .comment {
+    .comment-main {
         width: 100%;
         border-radius: 10px;
         background-color: #efefef;
@@ -128,12 +128,12 @@
     <h4 class="mb-3 font-weight-bold">Yorumlar</h4>
     <hr>
 
-    @if (onlineComments != null && onlineComments.Count > 0)
+    @if (onlineComments != null && onlineComments.Where(f => f.ParentId == null).Count() > 0)
     {
         @foreach (var comment in onlineComments.Where(f => f.ParentId == null)
-                                            .OrderBy(o => o.CreateDate))
+                                           .OrderBy(o => o.CreateDate))
         {
-            <div class="comment mb-2">
+            <div class="comment-main mb-2">
                 <div class="comment-header">
                     <img id="user-photo" class="user-photo" src="./images/user-photo.png" alt="">
                     <div class="comment-header-info w-100">
@@ -152,7 +152,7 @@
                             </div>*@
 
                         @foreach (var reply in onlineComments.Where(f => f.ParentId == comment.Id)
-                                                         .OrderBy(o => o.CreateDate))
+                                                        .OrderBy(o => o.CreateDate))
                         {
                             <div class="reply">
                                 <div class="reply-header">

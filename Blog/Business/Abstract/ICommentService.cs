@@ -12,6 +12,7 @@ namespace Business.Abstract
     {
         IResult Create(CommentCreateDto req);
         IResult Reply(CommentReplyDto req);
+        IResult Remove(Guid id);
         IDataResult<List<CommentReadDto>> GetAll();
         IResult UpdateState(CommentUpdateStateDto req);
     }

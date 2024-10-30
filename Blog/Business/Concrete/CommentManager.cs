@@ -5,6 +5,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs.Comment;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,20 @@ namespace Business.Concrete
             var result = _mapper.Map<List<CommentReadDto>>(entities);
 
             return new SuccessDataResult<List<CommentReadDto>>(result);
+        }
+
+        public IResult Remove(Guid id)
+        {
+            var comment = _commentDal.Get(f => f.Id == id);
+
+            if (comment == null)
+                return new ErrorResult("Yorum bilgisi bulunamadı!");
+
+
+            _commentDal.Delete(comment);
+            _commentDal.Save();
+
+            return new SuccessResult();
         }
 
         public IResult Reply(CommentReplyDto req)

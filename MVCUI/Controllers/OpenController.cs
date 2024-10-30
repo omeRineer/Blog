@@ -91,6 +91,17 @@ namespace MVCUI.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("[action]/{id}")]
+        [Authorize]
+        public IActionResult RemoveComment(string id)
+        {
+            var result = _commentService.Remove(Guid.Parse(id));
+
+            if (!result.Success) return BadRequest(result);
+
+            return Ok(result);
+        }
         #endregion
 
         #region Articles

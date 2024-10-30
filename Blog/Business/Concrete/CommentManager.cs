@@ -44,7 +44,7 @@ namespace Business.Concrete
 
         public IDataResult<List<CommentReadDto>> GetAll()
         {
-            var entities = _commentDal.GetAll(includes: i => i.Include(x => x.Article));
+            var entities = _commentDal.GetAll(includes: i => i.Include(x => x.Article), isGetPaging: false);
 
             var result = _mapper.Map<List<CommentReadDto>>(entities);
 
